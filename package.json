@@ -1,0 +1,21 @@
+{
+  "name": "sass_netninja",
+  "version": "1.0.0",
+  "description": "A tutorial for creating SASS libraries",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/James-M-Boyette/Sass_NetNinja"
+  },
+  "type": "module",
+  "author": "James Boyette",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.60.0"
+  }
+}
