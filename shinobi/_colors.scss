@@ -1,0 +1,39 @@
+// Note: you could call your variables whatever you want whatever you want - but using key & val & i keeps things clear. Also, these variables *only* exist inside this specific loop
+@each $key, $val in $colors { // Here, we use an "each" loop
+    .text-#{$key} { // This will produce `.text-primary`, `.text-secondary` etc. along with their associated values
+      color: $val;
+    }
+    .bg-#{$key} {
+      background-color: $val;
+    }
+  
+    @if ($val != black and $val != white) { // Video #10
+        /* 
+           Gradations (Video #9)
+           - What if we want to create gradations of our color map? Maybe we don't just want our 'primary' blue, but also a few darker and lighter versions of it ... Loops to the rescue!
+           - Here, we use a 'for' loop to increment-up our "mixing" value: 
+                > "i" will go from 1 to 9, get multiplied by 10%, and produce 9 classes with incrementally lighter 
+                > and our second 'for' loop will create 9 incrementally darker versions of said color
+            - PROBLEM: do we need lighter and darker versions of our 'white' and 'dark' map colors? No. So we use the conditional above to ignore those!
+        */
+        // light variations
+        @for $i from 1 through 9 {
+            .text-#{$key}-light-#{$i} {
+                color: mix(white, $val, $i * 10%);
+            }
+            .bg-#{$key}-light-#{$i} {
+                background-color: mix(white, $val, $i * 10%);
+            }
+        }
+    
+        // dark variations
+        @for $i from 1 through 9 {
+            .text-#{$key}-dark-#{$i} {
+                color: mix(black, $val, $i * 10%);
+            }
+            .bg-#{$key}-dark-#{$i} {
+                background-color: mix(black, $val, $i * 10%);
+            }
+        }
+    }
+  }

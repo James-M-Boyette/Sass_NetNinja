@@ -10,7 +10,7 @@ const myGulpSass = gulpSass(sass);
 
 function buildStyles() {
     // return src('index.scss')
-    return src('*.scss')
+    return src('shinobi/**/*.scss')
     // .pipe(sass())
     .pipe(myGulpSass())
     .pipe(dest('css'))
@@ -18,7 +18,7 @@ function buildStyles() {
 
 function watchTask() {
     // watch(['index.scss'], buildStyles)
-    watch(['*.scss'], buildStyles)
+    watch(['shinobi/**/*.scss'], buildStyles)
 }
 
 // exports.default = series(buildStyles, watchTask)
