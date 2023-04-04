@@ -1,0 +1,11 @@
+/* Custom Functions
+    - Here, we've created a custom function called `light-comp()`, which 
+        > takes in a color and 
+        > returns its complement, lightened by 30% (
+        > ... it does this using the built-in `complement()` and `lighten()` functions
+ */
+@function light-comp($color) {
+    $complement: complement($color); // `complement()` is a built-in Sass function, which takes in a color and returns its complement
+    $light-complement: lighten($complement, 30%); // `lighten()` is a built-in Sass function, which takes in two arguements: a color, and the amount to lighten it by
+    @return $light-complement;
+  }

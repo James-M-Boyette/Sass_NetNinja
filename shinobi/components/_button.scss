@@ -1,0 +1,68 @@
+/* 
+   "Mixins"
+   - Here, we have two loops ... our problem is that they're largely redundant (our `.btn-outlined` only has two additional properties (`background-color` and `border`) compared to our `.btn` class).
+   - If we want to DRY this out, we can create a single "mixin" that we can then be call within our loops.
+ */
+// @each $key, $val in $colors {
+//     .btn-#{key} {
+//         text-decoration: none;
+//         cursor: pointer;
+//         display: inline-block;
+//         border: 0;
+//         padding: $base-padding $base-padding * 2;
+//         border-radius: $base-border-radius;
+//         background-color: $val;
+//     }
+//     .btn-outlined-#{key} {
+//         text-decoration: none;
+//         cursor: pointer;
+//         display: inline-block;
+//         border: 0;
+//         padding: $base-padding $base-padding * 2;
+//         border-radius: $base-border-radius;
+//         background-color: $bg-color;
+//         background-color: #fff;
+//         border: $base-border-thickness solid $val;
+//     }
+// }
+
+
+// Here is our "mixin"
+@mixin btn($bg-color: #e2e2e2) { // Here, our mixin takes in a color argument - and if none is supplied, defaults to #e2e2e2
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    border: 0;
+    padding: $base-padding $base-padding * 2;
+    border-radius: $base-border-radius;
+    background-color: $bg-color;
+  }
+
+.btn {
+    @include btn;
+  }
+  
+@each $key, $val in $colors {
+    .btn-#{$key} {
+        @include btn($val); // Here is where we "include" our mixin. Note: we're passing in the value of $val as the argument for our 'mixin' $bg-color. We are, however, overriding the default value of #e2e2e2
+        &:hover {
+        background-color: lighten($val, 5%); // `lighten()` is a built-in Sass function, which takes in two arguements: a color, and the amount to lighten it by
+        }
+    }
+    .btn-outlined-#{$key} {
+        @include btn(#fff); // Again, here is where we "include" our mixin - we're supplying a color value (thus overriding the default value of #e2e2e2), BUT we're also adding an additional 'border' property below. Our Loop will create 9 classes (one for each color in our map), each having the properties of our mixing "btn" AND a border.
+        border: $base-border-thickness solid $val;
+        &:hover {
+        background-color: $val;
+        }
+    }
+    .btn-complement-#{$key} {
+        @include btn($val);
+        color: light-comp($val); // This is a custom function we built in our _functions.scss file
+        &:hover {
+          // Here, we're using our vanilla mapped color for the text color (instead of the complementary), and our custom 'light-comp' function to instead generate the (complimentary) *background* color
+          color: $val;
+          background-color: light-comp($val); 
+        }
+      }
+}

@@ -1,0 +1,238 @@
+@use 'sass:math';
+
+/* The Structure of Our Data
+
+   - Here, we effectively have an "object of objects":
+        > the '$utilities' map (our "parent" object) is the container for a number of child objects, stored in keys like "padding", "padding-left", "opaicty", "display", etc.
+            IOW, each of the keys in 'utilities' is its own object
+        > These child objects contain two values: a string for the "prefix" key, and a grand-child object for the "values" key
+        > This grand-child object contains k:v pairs 
+
+   const utilities = {      // This is our '$utilities' object
+        "padding": {        // This is our child/nested "padding" object
+            "prefix": "p",  // This is the only pure k:v with a 'string' data primative
+            "values": {     // This is our grand-child "values" object
+                "0": 0,
+                "1": "0.75rem",
+                "2": "1.5rem",
+                "3": "3rem",
+                "4": "4.5rem",
+                "5": "6rem"
+            },
+        },
+   }
+
+   - Effectively, this data object says 
+        "I want to store a bunch of objects I intend to us to make utility classes in a '$utilities' container. 
+        Each of these objects will contain
+            the prefix I want to concatonate into the class ("p", "pl", "mt", "font", etc.), and
+            the suffix I want to concatonate into the class ("0", "1", "sm", "lg", etc.), and
+            the actual css property I want to apply to the class.
+            Note: the css property name is the child object's key, and the property value is the grand-child's value
+
+ */
+
+$utilities: (
+    "padding": (
+        "prefix": "p",
+        "values": (
+            "0": 0,
+            "1": $base-padding, // This value is in our _variables.scss file
+            "2": $base-padding * 2,
+            "3": $base-padding * 4,
+            "4": $base-padding * 6,
+            "5": $base-padding * 8
+        ),
+    ),
+    "padding-left": (
+        "prefix": "pl",
+        "values": (
+            "0": 0,
+            "1": $base-padding,
+            "2": $base-padding * 2,
+            "3": $base-padding * 4,
+            "4": $base-padding * 6,
+            "5": $base-padding * 8
+        ),
+    ),
+    "padding-right": (
+        "prefix": "pr",
+        "values": (
+            "0": 0,
+            "1": $base-padding,
+            "2": $base-padding * 2,
+            "3": $base-padding * 4,
+            "4": $base-padding * 6,
+            "5": $base-padding * 8
+        ),
+    ),
+    "padding-top": (
+        "prefix": "pt",
+        "values": (
+            "0": 0,
+            "1": $base-padding,
+            "2": $base-padding * 2,
+            "3": $base-padding * 4,
+            "4": $base-padding * 6,
+            "5": $base-padding * 8
+        ),
+    ),
+    "padding-bottom": (
+        "prefix": "pb",
+        "values": (
+            "0": 0,
+            "1": $base-padding,
+            "2": $base-padding * 2,
+            "3": $base-padding * 4,
+            "4": $base-padding * 6,
+            "5": $base-padding * 8
+        ),
+    ),
+    "margin": (
+        "prefix": "m",
+        "values": (
+            "0": 0,
+            "1": $base-margin, // This value is also in our _variables.scss file
+            "2": $base-margin * 2,
+            "3": $base-margin * 4,
+            "4": $base-margin * 6,
+            "5": $base-margin * 8
+        ),
+    ),
+    "margin-left": (
+    "prefix": "ml",
+        "values": (
+            "0": 0,
+            "1": $base-margin,
+            "2": $base-margin * 2,
+            "3": $base-margin * 4,
+            "4": $base-margin * 6,
+            "5": $base-margin * 8
+        ),
+    ),
+    "margin-right": (
+        "prefix": "mr",
+        "values": (
+            "0": 0,
+            "1": $base-margin,
+            "2": $base-margin * 2,
+            "3": $base-margin * 4,
+            "4": $base-margin * 6,
+            "5": $base-margin * 8
+        ),
+    ),
+    "margin-top": (
+        "prefix": "mt",
+        "values": (
+            "0": 0,
+            "1": $base-margin,
+            "2": $base-margin * 2,
+            "3": $base-margin * 4,
+            "4": $base-margin * 6,
+            "5": $base-margin * 8
+        ),
+    ),
+    "margin-bottom": (
+        "prefix": "mb",
+        "values": (
+            "0": 0,
+            "1": $base-margin,
+            "2": $base-margin * 2,
+            "3": $base-margin * 4,
+            "4": $base-margin * 6,
+            "5": $base-margin * 8
+        ),
+    ),
+
+    "opacity": (
+        "prefix": "o",
+        "values": (
+            "10": 0.1,
+            "20": 0.2,
+            "30": 0.3,
+            "40": 0.4,
+            "50": 0.5,
+            "60": 0.6,
+            "70": 0.7,
+            "80": 0.8,
+            "90": 0.9,
+            "100": 1,
+        ),
+    ),
+    "border-radius": (
+        "prefix": "br",
+        "values": (
+            "default": $base-border-radius,
+            "none": 0,
+            "xs": math.div($base-border-radius, 4), // 20px / 4 = 5px
+            "sm": math.div($base-border-radius, 2), // 20px / 2 = 10px
+            "lg": $base-border-radius * 2, // 20px * 2 = 40px
+            "full": 50%,
+        )
+    ),
+    "display": (
+        "prefix": "display",
+        "values": (
+            "n": none,
+            "b": block,
+            "f": flex,
+            "i": inline,
+            "i-b": inline-block
+        )
+    ),
+    "font-size": (
+        "prefix": "font",
+        "values": (
+            "sm": $font-size-sm,
+            "md": $base-font-size,
+            "lg": $font-size-lg,
+            "xl": $font-size-xl,
+            "xxl": $font-size-xxl
+        )
+    )
+);
+
+
+/* Generate Utility classes via Loop
+
+   - This code generates utility classes for CSS properties using a Sass map.
+   - The first '@each' loop first goes through each key-value pair in the $utilities map, assigning $property as the key, and $map as the value. 
+   - Then, the prefix and values for each utility are extracted from the $map using the map-get() function and assigned to variables "$prefix" and "$values", respectively.
+   - The second @each loop goes through each key-value pair in the $values map and assigns the key to $k and the value to $v. If the key is "default", a utility class is generated using the $prefix and $v values, but without the $k key. Otherwise, a utility class is generated with both the $prefix and $k values, separated by a hyphen, and the $v value.
+ */
+
+@each $property, $map in $utilities { 
+
+    /* 
+        - Itterate over the $utilites 'map'/object
+        - For each element in that object (in the Object.keys array), assign the key of that element to $property and its value to $map
+        - Create two variables, and
+            > store the map.prefix value in `$prefix`, and
+            > the map.values value in `$values`
+       
+     */
+
+    
+    $prefix: map-get($map, "prefix"); // ~ `const prefix = map[prefix]`
+    // ... now, '$prefix' is storing a string value (whatever prefix we want to use in the construction of the class names
+
+    $values: map-get($map, "values"); // ~ `const values = map[values]`
+    // ... now, '$values' contains what is essentially an object (a 'map' in Sass) - whatever k:v's are in the 'values' object
+
+    @each $k, $v in $values { 
+        /* 
+           - Loop through each element of the child `$values` map/object, and 
+           - assign that element's key to $k and 
+           - that element's value(s) to $v
+         */
+        @if($k == "default") { // If the key (utilities[current element].values[current child/'values' element]) is "default" then we don't need to add a prefix and the value is the same as the key
+            .#{$prefix} {
+                #{$property}: $v;
+            }
+        } @else {
+            .#{$prefix}-#{$k}{
+                #{$property}: $v;
+            }
+        }
+    }
+}
